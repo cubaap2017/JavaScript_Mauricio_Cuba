@@ -1,6 +1,21 @@
-window.onload = function(){
+window.onload =function(){
 pantalla = document.getElementById("display");
 }
+/*
+function acomodarDisplay(){
+ var cadena = display.innerHTML;
+ var numero = parseFloat(cadena);
+ limite = 8;
+ if (cadena.lenght>limite){
+    if (numero - numero.toFixed(0) == 0){
+       display.innerHTML=numero;
+     }
+     else {
+       display.innerHTML=parseFloat(cadena).toPrecision(8)
+     }
+   }
+ }
+*/
 
 x="0";      //nro display
 xi=1;       //iniciar nro: 1=si; 0=no;
@@ -17,31 +32,33 @@ var calculadora = {
     },100);
   },
 
-  numero: function(xx){       // recoge el número tecleado
-    if (x=="0" || xi==1 ) {   // inicia un nro,
-       pantalla.innerHTML=xx; // muestra el nro en pantalla
-       x=xx;    // para guardar el nro
-       if (xx==".") {         // cuando hay punto al principio del nro
-          pantalla.innerHTML="0.";
-          x=xx;               // guarda nro
-          coma=1;             // flag de estado de la coma 1=si
-          }
-      }
-      else {                  // se sigue escribiendo el nro
-          if (xx=="." && coma==0) {     //si escribimos coma decimal 1ra vez
-              pantalla.innerHTML+=xx;
-              x+=xx;
-              coma=1;         // flag de estado de la coma
-          }
-         //si se trata de escribir una segunda coma no deja
-          else if (xx=="." && coma==1) {
-          }
-          else {
-              pantalla.innerHTML+=xx;
-              x+=xx
-          }
+  numero: function(xx){           // recoge el número tecleado
+       if (x=="0" || xi==1 ) {    // inicia un nro,
+       pantalla.innerHTML= xx;    // muestra el nro en pantalla
+       console.log("Hello from Me");
+       x=xx;                      // para guardar el nro
+       if (xx==".") {             // cuando hay punto al principio del nro
+         pantalla.innerHTML="0.";
+         x=xx;                    // guarda nro
+         coma=1;                  // flag de estado de la coma 1=si
+         }
        }
-       xi=0 // nro está iniciado y se puede ampliar
+       else {                     // se sigue escribiendo el nro
+           if (xx=="." && coma==0) {     //si escribimos coma decimal 1ra vez
+               pantalla.innerHTML+=xx;
+               x+=xx;
+               coma=1;         // flag de estado de la coma
+           }
+          //si se trata de escribir una segunda coma no deja
+           else if (xx=="." && coma==1) {
+           }
+           // Otros casos: escribir un número del 0 al 9:
+           else {
+               pantalla.innerHTML+=xx;
+               x+=xx
+           }
+        }
+        xi=0;  // nro está iniciado y se puede ampliar
      },
 
      operar: function (s) {
@@ -52,15 +69,15 @@ var calculadora = {
      },
 
      igualar: function () {
-            if (op=="no") {   // sin op pendiente
-               pantalla.innerHTML=" ";	// se muestra pantalla vacia
+            if (op=="no") {             // sin op pendiente
+               pantalla.innerHTML="0";	// se muestra pantalla vacia
                }
             else {            // existe op pendiente p resolver
                sl=ni+op+x;    // op en una cadena Nro en espera , op pendiente , segundo operando
-               sol=eval(sl);   // convierte la cadena a codigo y resuelve
+               sol=eval(sl);  // convierte la cadena a codigo y resuelve
                pantalla.innerHTML=sol.toPrecision(6);  // se muestra resultado de 6 cifras
                x=sol;         // resultado guardado
-               op="no";       // ya no op pendientes
+               // op="no";       // ya no hay op pendientes
                xi=1;          // ya se puede reiniciar display
                }
      },
