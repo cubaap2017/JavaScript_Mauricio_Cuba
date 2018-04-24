@@ -1,21 +1,6 @@
 window.onload =function(){
 pantalla = document.getElementById("display");
 }
-/*
-function acomodarDisplay(){
- var cadena = display.innerHTML;
- var numero = parseFloat(cadena);
- limite = 8;
- if (cadena.lenght>limite){
-    if (numero - numero.toFixed(0) == 0){
-       display.innerHTML=numero;
-     }
-     else {
-       display.innerHTML=parseFloat(cadena).toPrecision(8)
-     }
-   }
- }
-*/
 
 x="0";      //nro display
 xi=1;       //iniciar nro: 1=si; 0=no;
@@ -33,74 +18,101 @@ var calculadora = {
   },
 
   numero: function(xx){           // recoge el número tecleado
-       if (x=="0" || xi==1 ) {    // inicia un nro,
-       pantalla.innerHTML= xx;    // muestra el nro en pantalla
-       console.log("Hello from Me");
-       x=xx;                      // para guardar el nro
-       if (xx==".") {             // cuando hay punto al principio del nro
-         pantalla.innerHTML="0.";
-         x=xx;                    // guarda nro
-         coma=1;                  // flag de estado de la coma 1=si
-         }
-       }
-       else {                     // se sigue escribiendo el nro
-           if (xx=="." && coma==0) {     //si escribimos coma decimal 1ra vez
-               pantalla.innerHTML+=xx;
-               x+=xx;
-               coma=1;         // flag de estado de la coma
-           }
-          //si se trata de escribir una segunda coma no deja
-           else if (xx=="." && coma==1) {
-           }
-           // Otros casos: escribir un número del 0 al 9:
-           else {
-               pantalla.innerHTML+=xx;
-               x+=xx
-           }
+    console.log("---------------FUNCION NUMERO----------------");
+    //console.log("Valor de la coma:   " +coma);
+    //console.log("Valor de xi:   " +xi);
+    //console.log("Valor de la x de entrada:   " +x);
+    if (x=="0" || xi==1 ) {     // inicia un nro,
+      pantalla.innerHTML= xx;   // muestra el nro en pantalla
+      x=xx;                     // para guardar el nro
+      if (xx==".") {             // cuando hay punto al principio del nro
+        pantalla.innerHTML="0.";
+        x=xx;                    // guarda nro
+        coma=1;                  // flag de estado de la coma 1=si
         }
+      }
+      else {                     // se sigue escribiendo el nro
+        if (xx=="." && coma==0) {     //si escribimos coma decimal 1ra vez
+          pantalla.innerHTML+=xx;
+          x+=xx;
+          coma=1;         // flag de estado de la coma
+        }
+        //si se trata de escribir una segunda coma no deja
+        else if (xx=="." && coma==1) {
+          pantalla.innerHTML=x;
+        }
+        // Otros casos escribe numero del 0 al 9:
+        else {
+          var str = x;              // variable aux para contar los digitos de x
+          var n = str.length+1;     // cuenta los digitos de x y guarda en n
+          //console.log("Valor de digitos:    " +n);
+          if (n<=8) {
+            pantalla.innerHTML+=xx;
+            x+=xx;
+          }
+          else {
+            console.log("Valor de digitos maximo es de 8... no van mas!!!");
+            pantalla.innerHTML=x;
+          }
+        }
+      }
         xi=0;  // nro está iniciado y se puede ampliar
-     },
+        //console.log("Valor de x:   " +x);
+        //console.log("Valor de xx:   " +xx);
+  },
 
-     operar: function (s) {
-             this.igualar();  // si hay op pendientes se hacen primero
-             ni=x;            // se pone el 1er nro en "espera" para poder escribir un 2do nro
-             op=s;            // guardamos tipo op
-             xi=1;            // inicializa display para proseguir con otro operando
-     },
+  operar: function (s) {
+    console.log("---------------FUNCION OPERAR----------------");
+    this.igualar();  // si hay op pendientes se hacen primero
+    ni=x;            // se pone el 1er nro en "espera" para poder escribir un 2do nro
+    op=s;            // guardamos tipo op
+    xi=1;            // inicializa display para proseguir con otro operando
+    coma=0;
+    console.log("valor de la operacion:   " +op);
+    console.log("valor del primer operando:   " +ni);
+  },
 
-     igualar: function () {
-            if (op=="no") {             // sin op pendiente
-               pantalla.innerHTML="0";	// se muestra pantalla vacia
-               }
-            else {            // existe op pendiente p resolver
-               sl=ni+op+x;    // op en una cadena Nro en espera , op pendiente , segundo operando
-               sol=eval(sl);  // convierte la cadena a codigo y resuelve
-               pantalla.innerHTML=sol.toPrecision(6);  // se muestra resultado de 6 cifras
-               x=sol;         // resultado guardado
-               // op="no";       // ya no hay op pendientes
-               xi=1;          // ya se puede reiniciar display
-               }
-     },
+  igualar: function () {
+    if (op=="no") {             // sin op pendiente
+      pantalla.innerHTML="0";	// se muestra pantalla vacia
+    }
+    else {            // existe op pendiente p resolver
+      sl=ni+op+x;    // op en una cadena Nro en espera , op pendiente , segundo operando
+      console.log("---------------FUNCION IGUALAR----------------");
+      //console.log("valor de ni input:   " +ni);
+      //console.log("valor de op:   " +op);
+      //console.log("valor de x:    " +x);
+      //console.log("valor de sl:    " +sl);
+      sol=eval(sl);  // convierte la cadena a codigo y resuelve
+      //console.log("valor de sol:    " +sol);
+      pantalla.innerHTML=sol.toPrecision(6);  // se muestra resultado de 6 cifras
+      ni=sol;
+      //console.log("valor de ni output:   " +ni);
+      // x=sol;         // resultado guardado
+      // op="no";       // ya no hay op pendientes
+      xi=1;          // ya se puede reiniciar display
+    }
+   },
 
-     raizc: function () {
-              x=Math.sqrt(x);
-              pantalla.innerHTML=x.toPrecision(6); // se muestra el resultado de 6 cifras
-              op="no";        // ya no hay op pendientes
-              xi=1;           // ya se puede reiniciar display
-     },
+  raizc: function () {
+      x=Math.sqrt(x);
+      pantalla.innerHTML=x.toPrecision(6); // se muestra el resultado de 6 cifras
+      op="no";        // ya no hay op pendientes
+      xi=1;           // ya se puede reiniciar display
+  },
 
-     borradoTotal: function () {
-              pantalla.innerHTML=0; // pantalla en 0
-              x="0";                // reinicia nro del display
-              coma=0;               // flag de estado de la coma 0=no
-              ni=0                  // flag nro oculto a 0
-              op="no"               // op en curso borrada
-     },
+  borradoTotal: function () {
+      pantalla.innerHTML=0; // pantalla en 0
+      x="0";                // reinicia nro del display
+      coma=0;               // flag de estado de la coma 0=no
+      ni=0;                 // flag nro oculto a 0
+      op="no";              // op en curso borrada
+  },
 
-     opuest: function () {
-              nx=Number(x);         // convertir en número
-              nx=-nx;
-              x=String(nx);         // volver a cadena
-              pantalla.innerHTML=x;
-     },
+  opuest: function () {
+      nx=Number(x);         // convertir en número
+      nx=-nx;
+      x=String(nx);         // volver a cadena
+      pantalla.innerHTML=x;
+  },
 }
